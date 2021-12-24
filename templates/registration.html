@@ -1,0 +1,34 @@
+{#{% extends 'hom.html' %}#}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration/Sign-up Page</title>
+</head>
+<body>
+{#{% block content %}#}
+<h1>Registration</h1>
+    <div style = "border : solid 1px black; width : 35%; height : 200px; align-content: center;">
+    <br>
+    <form action="#" method="POST" style= "margin: auto;">
+        {% csrf_token %}
+
+        {% for fm in form %}
+            {{ fm.label_tag }}
+            {{ fm }}
+            {{ fm.errors|striptags }}<br><br>
+        {% endfor %}
+    </div>
+        <input style = "alignment: center" type="Submit" value="submit">
+    </form>
+    {% if messages %}
+        {% for msg in messages %}
+           <li {% if msg.tags %} class="{{ msg.tags }}" {% endif %}>{{ msg }}
+           </li>
+        {% endfor %}
+    {% endif %}
+{#{% endblock %}#}
+</body>
+
+</html>

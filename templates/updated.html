@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .form {
+            border: solid 1px darkred;
+            margin: 10px  100px 38%;
+            width: 300px;
+            color: darkblue;
+            background-color: aliceblue;
+        }
+        h1, h3 {
+            margin: Auto;
+            text-align: center;
+            color: #931c37;
+            background-color: aqua;
+               }
+    </style>
+</head>
+<body>
+<h1>Please update Your Information</h1>
+<div class="form">
+        <form method="POST">
+            {% csrf_token %}
+            {% for fm in form %}
+                {{ fm.label_tag }}
+                {{ fm }}
+                {{ fm.errors|striptags }}
+                <br><br>
+            {% endfor %}
+{#           <table>#}
+{#               {{ form.as_table }}#}
+{#           </table>#}
+          <input type="Submit" value="Update">
+
+        </form>
+</div>
+</body>
+</html>

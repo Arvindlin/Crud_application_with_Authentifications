@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .form{
+            border: solid 1px darkred;
+            margin: 10px 10px 30px 30%;
+            width: 500px;
+            color: darkblue;
+            background-color: aliceblue;
+        }
+        h1, h3{
+            margin: Auto;
+            text-align: center;
+            color: #931c37;
+            background-color: aqua;
+            border: solid 1px
+        }
+        table,td, th,tr{
+            border: solid 1px;
+            align-items: center;
+            margin: 10px 50px 100px 30%;
+        }
+        th{
+            font-width: bold;
+            color: brown;
+        }
+        .table{
+            margin: 10px 40px 100px 50px;
+            border: solid 1px
+
+        }
+        .container{
+            text-align: center;
+            border: 1px solid red;
+            width: 100px;
+            height: 30px;
+            margin: 10px 10px 10px 40%;
+        }
+        .first{
+            border: 1px solid blue;
+        }
+
+    </style>
+</head>
+<body>
+<h1>CRUD Application</h1>
+<div class = 'first'>
+<div class="form">
+<form action = "#" method="POST" >
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input class="container" type="submit" value = "Submit">
+</form>
+</div>
+
+<div class="table">
+    <h3>This shows the Information</h3>
+    {% if data_info %}
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>email</th>
+            <th>age</th>
+            <th>Remove the Data</th>
+            <th>Edit the Data</th>
+        </tr>
+    <tbody>
+        {% for inf in data_info %}
+        <tr>
+            <td>{{ inf.id }}</td>
+            <td>{{ inf.firstname }}</td>
+            <td>{{ inf.lastname }}</td>
+            <td>{{ inf.email }}</td>
+            <td>{{ inf.age }}</td>
+            <td ><a href = "{% url 'confirm_delete' id=inf.id %}" style="color: Blue">
+                <button>Delete....</button>
+                </a>
+            </td>
+            <td ><a href = '{% url 'updated' id=inf.id %}'>
+                <button>Edit....</button>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </thead>
+    </table>
+    {% endif %}
+</div>
+</div>
+</body>
+{% endblock %}
+</html>
