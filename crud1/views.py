@@ -1,28 +1,29 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Information
 from .form import InformationForm, Registration
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 
 def home(request):
     return render(request, "hom.html")
 
-@login_required()
+
+@login_required(login_url='/login/')
 def my_view(request):
     if request.method == 'POST':
         fm = InformationForm(request.POST)
         if fm.is_valid():
             fm.save()
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse('my_view'))
     else:
         fm = InformationForm()
 
-    data = Information.objects.order_by('firstname')
+    data = Information.objects.filter(user=request.user)
     context = {
         'form': fm,
         "data_info": data
@@ -72,7 +73,8 @@ def login_user(request):
             user = authenticate(username=uname, password=upass)
             login(request, user)
             messages.success(request, "user Login successfully!!")
-            # return render(request, 'hom.html')
+            request.session['username'] = uname
+            return render(request, 'hom.html')
     else:
         fm = AuthenticationForm()
     return render(request, "login.html", {'form': fm})
@@ -80,5 +82,19 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    return render(request, 'login.html')
+    return render(request, 'logout.html')
 
+
+def change_password(request):
+    if request.method == 'POST':
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+            user = fm.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Your Password was successfully updated")
+            return redirect('home')
+        else:
+            messages.error(request, 'please correct the error below')
+    else:
+        fm = PasswordChangeForm(user=request.user)
+    return render(request, 'passwordchange.html', {'form': fm})

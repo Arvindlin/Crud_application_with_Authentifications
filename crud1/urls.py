@@ -5,7 +5,6 @@ from . import views
 
 
 urlpatterns = [
-
     path('', views.home, name='home'),
     path('crud', views.my_view, name='my_view'),
     path('delete/<int:id>', views.delete_info, name='confirm_delete'),
@@ -13,5 +12,6 @@ urlpatterns = [
     path('success_page', views.success_page, name='success'),
     path('registration', views.registration, name= 'registration'),
     path('login/', views.login_user, name='login'),
-    path('logout/', views.logout_user, name='logout')
+    path('logout/', views.logout_user, name='logout'),
+    path('changepassword/', views.change_password, name='change-password'),
 ]

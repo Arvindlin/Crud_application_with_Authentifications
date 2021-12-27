@@ -1,27 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+
+
+{% block title %}    <title>Log-in</title>   {% endblock %}
+
+
 <body>
-    <form action="#" method="POST" >
+{% block content %}
+    <style>
+        .login{
+            border: 1px solid brown;
+            align-content: center;
+            width : 35%;
+            height : 130px;
+            margin: 50px 35% 60%;
+            background-color: antiquewhite;
+        }
+    </style>
+    <div class = "login">
+    <br>
+    <form action="#" method="POST" style="margin: 10px 10px 0px 50px;">
         {% csrf_token %}
         {% for fm in form %}
             {{ fm.label_tag }}
             {{ fm }}
             {{ fm.errors|striptags }}<br><br>
         {% endfor %}
-    </div>
-        <input type="Submit" value="submit">
+            <input type="Submit" value="submit">
     </form>
+    <br>
     {% if messages %}
         {% for msg in messages %}
            <li {% if msg.tags %} class="{{ msg.tags }}" {% endif %}>{{ msg }}
            </li>
         {% endfor %}
     {% endif %}
-<h4> If you want to go to CRUDE click on <a href="{% url 'my_view' %}"> Me </a></h4>
-<h4> If you want to go to Home page. <a href="{% url 'home' %}"> Home-Page </a></h4>
+    </div>
+{% endblock %}
 </body>
 </html>

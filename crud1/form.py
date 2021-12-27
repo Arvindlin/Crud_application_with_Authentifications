@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 class InformationForm(ModelForm):
     class Meta:
         model = Information
-        fields = '__all__'
+        fields = ['firstname', 'lastname', 'email', 'age']
 
 
 class Registration(UserCreationForm):
@@ -16,4 +16,6 @@ class Registration(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+
 
