@@ -11,13 +11,15 @@
             border: 1px solid brown;
             align-content: center;
             width : 35%;
-            height : 130px;
+            height : 200px;
             margin: 50px 35% 60%;
             background-color: antiquewhite;
         }
+
     </style>
     <div class = "login">
     <br>
+    <h1 style="margin: 0px 10px 20px 10px; height: 40px; background-color: #e59b44">Login</h1>
     <form action="#" method="POST" style="margin: 10px 10px 0px 50px;">
         {% csrf_token %}
         {% for fm in form %}
@@ -26,6 +28,7 @@
             {{ fm.errors|striptags }}<br><br>
         {% endfor %}
             <input type="Submit" value="submit">
+    <a href="{% url 'password_reset' %}"> Forget Password </a>
     </form>
     <br>
     {% if messages %}

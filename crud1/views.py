@@ -5,7 +5,7 @@ from django.urls import reverse
 from .models import Information
 from .form import InformationForm, Registration
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 
@@ -98,3 +98,6 @@ def change_password(request):
     else:
         fm = PasswordChangeForm(user=request.user)
     return render(request, 'passwordchange.html', {'form': fm})
+
+
+
