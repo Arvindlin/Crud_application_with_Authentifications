@@ -10,11 +10,13 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 
 def home(request):
+    '''It will render to home page.'''
     return render(request, "hom.html")
 
 
 @login_required(login_url='/login/')
 def my_view(request):
+    '''This is for main CRUD application. To create and Retrive the data on html page.'''
     if request.method == 'POST':
         fm = InformationForm(request.POST)
         if fm.is_valid():
@@ -32,11 +34,13 @@ def my_view(request):
 
 
 def delete_info(request, id):
+    '''This view is to delete the selected information. '''
     Information.objects.filter(id=id).delete()
     return render(request, 'confirm_delete.html')
 
 
 def edit_info(request, id):
+    '''This view is to edit/Update the table of the CRUD App.'''
     if request.method == 'POST':
         obj = Information.objects.get(id=id)
         fm = InformationForm(request.POST, instance=obj)
@@ -50,10 +54,12 @@ def edit_info(request, id):
 
 
 def success_page(request):
+    '''To send the user to suceessful page after delete the Row of table.'''
     return render(request, 'confirm_delete.html')
 
 
 def registration(request):
+    '''For sign-up/Registeration of new user.'''
     if request.method == 'POST':
         fm = Registration(request.POST)
         if fm.is_valid():
@@ -65,6 +71,7 @@ def registration(request):
 
 
 def login_user(request):
+    '''To log in the user through log-in page.'''
     if request.method == "POST":
         fm = AuthenticationForm(request=request, data=request.POST)
         if fm.is_valid():
@@ -81,11 +88,13 @@ def login_user(request):
 
 
 def logout_user(request):
+    '''To log-out the user.'''
     logout(request)
     return render(request, 'logout.html')
 
 
 def change_password(request):
+    '''To change the password through when user is logged in.'''
     if request.method == 'POST':
         fm = PasswordChangeForm(user=request.user, data=request.POST)
         if fm.is_valid():
