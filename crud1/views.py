@@ -17,10 +17,11 @@ def home(request):
 @login_required(login_url='/login/')
 def my_view(request):
     '''This is for main CRUD application. To create and Retrive the data on html page.'''
+
     if request.method == 'POST':
         fm = InformationForm(request.POST)
         if fm.is_valid():
-            fm.save()
+            fm.save(context=request)
         return HttpResponseRedirect(reverse('my_view'))
     else:
         fm = InformationForm()
@@ -28,7 +29,7 @@ def my_view(request):
     data = Information.objects.filter(user=request.user)
     context = {
         'form': fm,
-        "data_info": data
+        "data_info": data,
     }
     return render(request, "home.html", context)
 
@@ -107,6 +108,3 @@ def change_password(request):
     else:
         fm = PasswordChangeForm(user=request.user)
     return render(request, 'passwordchange.html', {'form': fm})
-
-
-
