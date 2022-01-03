@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Information
-from .form import InformationForm, Registration
+from .models import Information, Profile
+from .form import InformationForm, Registration, ProfileForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
+from django.contrib.auth.models import User
 
 def home(request):
     '''It will render to home page.'''
@@ -27,9 +27,12 @@ def my_view(request):
         fm = InformationForm()
 
     data = Information.objects.filter(user=request.user)
+    img = Profile.objects.get(user= request.user)
+    print(img)
     context = {
         'form': fm,
         "data_info": data,
+        'Image':img,
     }
     return render(request, "home.html", context)
 
@@ -108,3 +111,20 @@ def change_password(request):
     else:
         fm = PasswordChangeForm(user=request.user)
     return render(request, 'passwordchange.html', {'form': fm})
+
+def upload_image(request):
+    '''To upload the image through this view'''
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user = User.objects.get(pk=request.user.id)
+        # user = Profile.objects.get(id=id)
+            fm = ProfileForm(request.POST, request.FILES, instance=user)
+            if fm.is_valid():
+                obj = fm.save(commit=False)
+                obj.User = user
+                obj.save()
+    else:
+        # user = Profile.objects.get(id=id)
+        obj = User.objects.get(pk=request.user.id)
+        fm = ProfileForm(instance=obj)
+    return render(request, 'upload.html', {'form': fm})

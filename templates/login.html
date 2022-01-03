@@ -20,14 +20,14 @@
     <div class = "login">
     <br>
     <h1 style="margin: 0px 10px 20px 10px; height: 40px; background-color: #e59b44">Login</h1>
-    <form action="#" method="POST" style="margin: 10px 10px 0px 50px;">
+    <Form action="#" method="POST" style="margin: 10px 10px 0px 50px;">
         {% csrf_token %}
         {% for fm in form %}
             {{ fm.label_tag }}
             {{ fm }}
             {{ fm.errors|striptags }}<br><br>
         {% endfor %}
-            <input type="Submit" value="submit">
+        <a href="{% url 'my_view' %}"><input type="Submit" value="submit"></a><br>
     <a href="{% url 'password_reset' %}"> Forget Password </a>
     </form>
     <br>

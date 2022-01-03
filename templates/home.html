@@ -1,7 +1,6 @@
-{#<!doctype html>#}
-{#<html lang="en">#}
-{% extends 'base.html' %}
-{% block content %}
+<!doctype html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -47,13 +46,23 @@
         .first{
             border: 1px solid blue;
         }
-
+    .img{
+        margin: 10px 0px 0px 90%;
+    }
     </style>
 </head>
 <body>
-<p>Hello!! {{ request.user }}</p>
 <h1>Welcome to CRUD Application</h1>
-<p> To Go back to home page <a href="{% url "home" %}">Click on Me</a></p>
+<p> To logout please click on... <a href="{% url "logout" %}">logout</a></p>
+ <div class = 'img'>
+    {% if Image %}
+        <img src="{{ Image.image.url }}" alt="connect" style="max-height: 150px; max-width: 120px;"><br>
+        {{ Image.user }}
+        <p>To change the dp <a href="{% url 'img_upl' %}">Change</a></p>
+    {% endif %}
+    </div>
+<p>Hello!! {{ request.user }}</p>
+
 
 <div class="form">
 <form action = "#" method="POST" >
@@ -105,5 +114,4 @@
 </div>
 </div>
 </body>
-{% endblock %}
 </html>
