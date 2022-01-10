@@ -10,7 +10,7 @@
     <style>
         .form{
             border: solid 1px darkred;
-            margin: 10px 10px 0px 30%;
+            margin: 10px 10px 0 30%;
             width: 500px;
             color: darkblue;
             background-color: aliceblue;
@@ -28,7 +28,7 @@
             margin: 10px 50px 100px 30%;
         }
         th{
-            font-width: bold;
+            font_weight: bold;
             color: brown;
         }
         .table{
@@ -47,7 +47,7 @@
             border: 1px solid blue;
         }
     .img{
-        margin: 10px 0px 0px 90%;
+        margin: 10px 0 0 90%;
     }
     </style>
 </head>
@@ -62,6 +62,7 @@
     {% endif %}
     </div>
 <p>Hello!! {{ request.user }}</p>
+<p>Hello!! {{ request.user.id }}</p>
 
 
 <div class="form">
@@ -89,6 +90,7 @@
             <th>Remove the Data</th>
             <th>Edit the Data</th>
         </tr>
+    </thead>
     <tbody>
         {% for inf in data_info %}
         <tr>
@@ -108,10 +110,9 @@
         </tr>
     {% endfor %}
     </tbody>
-    </thead>
+{#    </thead>#}
     </table>
     {% endif %}
-</div>
 </div>
 </body>
 </html>

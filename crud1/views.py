@@ -17,18 +17,38 @@ def home(request):
 @login_required(login_url='/login/')
 def my_view(request):
     '''This is for main CRUD application. To create and Retrive the data on html page.'''
-
     if request.method == 'POST':
+        obj = User.objects.get(pk=request.user.id)
+        print(obj)
         fm = InformationForm(request.POST)
+        # print(fm)
         if fm.is_valid():
-            fm.save(context=request)
-        return HttpResponseRedirect(reverse('my_view'))
-    else:
-        fm = InformationForm()
+            # fm.save(context=request)
+            new_key = fm.save()
+            add_value = Information.objects.get(id=new_key.pk)
+            add_value.user = obj
+            add_value.save()
+            # print(add_value)
 
+        return HttpResponseRedirect(reverse('my_view'))
+    # else:
+        # obj = User.objects.get(pk=request.user.id)
+        # print(obj)
+        # inf = Information.objects.get(user = obj)
+        # fm = InformationForm(instance=request.user)
+        # fm.user = request.session['username']
+        # print(fm.user)
+    else:
+        obj = User.objects.get(pk = request.user.id)
+        # print(obj.id)
+        # pf = Information.objects.get(user_id=obj.id)
+        fm = InformationForm(instance=obj)
+        # print(pf)
+        fm.id = obj
+        # print(fm)
     data = Information.objects.filter(user=request.user)
     img = Profile.objects.get(user= request.user)
-    print(img)
+    # print(img)
     context = {
         'form': fm,
         "data_info": data,
@@ -112,19 +132,31 @@ def change_password(request):
         fm = PasswordChangeForm(user=request.user)
     return render(request, 'passwordchange.html', {'form': fm})
 
+
+@login_required()
 def upload_image(request):
     '''To upload the image through this view'''
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            user = User.objects.get(pk=request.user.id)
-        # user = Profile.objects.get(id=id)
-            fm = ProfileForm(request.POST, request.FILES, instance=user)
-            if fm.is_valid():
-                obj = fm.save(commit=False)
-                obj.User = user
-                obj.save()
+
+        # user = User.objects.filter(pk =request.user.id)
+        fm = ProfileForm(request.POST, request.FILES)
+        if fm.is_valid():
+            fm.save()
+            # obj = Profile.objects.get(pk=request.user.id)
+            # obj = Information.objects.get(user = request.session['username'])
+            # obj = Information.objects.get(user_id = request.user.id)
+            # new_obj= fm.save()
+            # add_new = Profile.objects.get(id=new_obj.pk)
+            # add_new.user = obj.user
+            # add_new.save()
+
     else:
-        # user = Profile.objects.get(id=id)
-        obj = User.objects.get(pk=request.user.id)
-        fm = ProfileForm(instance=obj)
+        user = User.objects.get(pk = request.user.id)
+        # print(user)
+        pf = Profile.objects.get(user = user)
+        # print(pf)
+        fm = ProfileForm(instance=pf)
+        fm.user = user
+        # print(fm.user)
+
     return render(request, 'upload.html', {'form': fm})
