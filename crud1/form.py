@@ -10,8 +10,8 @@ class InformationForm(forms.ModelForm):
 
     class Meta:
         model = Information
-        # fields = '__all__'
         fields = ['firstname', 'lastname', 'email', 'age']
+        # fields = ['firstname', 'lastname', 'email', 'age']
     # firstname = forms.CharField(max_length=100)
     # lastname = forms.CharField(max_length=100)
     # email = forms.EmailField(widget=forms.EmailInput())

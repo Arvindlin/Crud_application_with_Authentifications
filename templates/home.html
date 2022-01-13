@@ -87,6 +87,7 @@
             <th>LastName</th>
             <th>email</th>
             <th>age</th>
+            <th>phone_number</th>
             <th>Remove the Data</th>
             <th>Edit the Data</th>
         </tr>
@@ -99,6 +100,7 @@
             <td>{{ inf.lastname }}</td>
             <td>{{ inf.email }}</td>
             <td>{{ inf.age }}</td>
+{#            <td>{{ inf.phone_number }}</td>#}
             <td ><a href = "{% url 'confirm_delete' id=inf.id %}" style="color: Blue">
                 <button>Delete....</button>
                 </a>

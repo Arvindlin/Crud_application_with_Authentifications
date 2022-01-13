@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
+from djangoProject1 import settings
+from django.core.mail import send_mail
+
 
 def home(request):
     '''It will render to home page.'''
@@ -47,12 +50,11 @@ def my_view(request):
         fm.id = obj
         # print(fm)
     data = Information.objects.filter(user=request.user)
-    img = Profile.objects.get(user= request.user)
     # print(img)
     context = {
         'form': fm,
         "data_info": data,
-        'Image':img,
+        # 'Image':img,
     }
     return render(request, "home.html", context)
 
@@ -89,6 +91,9 @@ def registration(request):
         if fm.is_valid():
             fm.save()
             messages.success(request, 'Account created Successfully!! ')
+            subject = 'Welcome to site'
+            message1 = 'Thanks for registration'
+            send_mail(subject, message1, settings.EMAIL_HOST_USER, [request.POST['email']], fail_silently=False)
     else:
         fm = Registration()
     return render(request, "registration.html", context={"form": fm})
